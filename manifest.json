@@ -1,0 +1,23 @@
+{
+  "name": "Blog Teknologi",
+  "short_name": "Blog tech",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#15803d",
+  "orientation": "portrait",
+  "description": "Berita teknologi terbaru dan terupdate dari berbagai sumber terpercaya.",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "logoblog(1).png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logoblog(1).png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
