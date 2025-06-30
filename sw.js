@@ -1,10 +1,12 @@
 const cacheName = 'blog-tech-cache-v1';
 const assets = [
-  './',
-  './index.html',
-  './detail.html',
-  './manifest.json',
-  './logoblog(1).png',
+  '/PWM_TugasAkhir/',
+  '/PWM_TugasAkhir/index.html',
+  '/PWM_TugasAkhir/detail.html',
+  '/PWM_TugasAkhir/manifest.json',
+  '/PWM_TugasAkhir/logoblog(1).png',
+  '/PWM_TugasAkhir/logoblog-192.png',
+  '/PWM_TugasAkhir/logoblog-512.png',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
 ];
 
