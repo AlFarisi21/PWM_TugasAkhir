@@ -85,23 +85,8 @@
       }
     });
 
-    // Daftar gambar random bertema teknologi
-    const techImages = [
-      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Server room
-      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // AI circuit
-      'https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Cloud computing
-      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Coding
-      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Tech gadgets
-      'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' // Futuristic tech
-    ];
-
-    // Fungsi untuk memilih gambar random
-    function getRandomTechImage() {
-      return techImages[Math.floor(Math.random() * techImages.length)];
-    }
-
-    // URL API dari Mediastack API
-    const url = 'http://api.mediastack.com/v1/news?access_key=e9e0969ee9dd293831691399b6180d7b&keywords=technology&categories=technology&languages=en&sort=published_desc&limit=6';
+    // URL API dari Newsdata.io
+    const url = 'https://newsdata.io/api/1/latest?apikey=pub_6b2b5f1d7a4d45cda43924f5a1c199ec&country=id&language=id&category=technology';
 
     async function fetchNews() {
       const loading = document.getElementById('loading');
@@ -115,14 +100,14 @@
         if (response.ok) {
           const data = await response.json();
 
-          if (data.data && data.data.length > 0) {
-            data.data.forEach((article, index) => {
+          if (data.results && data.results.length > 0) {
+            data.results.forEach((article, index) => {
               const title = article.title || 'Tidak ada judul';
               const description = article.description || 'Tidak ada deskripsi';
-              const source = article.source || 'Tidak ada sumber';
+              const source = article.source_id || 'Tidak ada sumber';
               // Gunakan gambar dari API jika tersedia, jika tidak gunakan gambar random teknologi
-              const image = article.image && article.image !== null ? article.image : getRandomTechImage();
-              const url = article.url || '#';
+              const image = article.image_url && article.image_url !== null ? article.image_url : getRandomTechImage();
+              const url = article.link || '#';
 
               const articleDiv = document.createElement('div');
               articleDiv.className = 'col-md-6 mb-4';
@@ -147,7 +132,7 @@
         } else {
           const errorData = await response.json();
           loading.style.display = 'none';
-          errorDiv.textContent = `Gagal mengambil data. Status: ${response.status}, Pesan: ${errorData.message || 'Kemungkinan API key tidak valid. Silakan periksa di mediastack.com.'}`;
+          errorDiv.textContent = `Gagal mengambil data. Status: ${response.status}, Pesan: ${errorData.message || 'Kemungkinan API key tidak valid. Silakan periksa di newsdata.io.'}`;
         }
       } catch (error) {
         loading.style.display = 'none';

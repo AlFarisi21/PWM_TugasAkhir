@@ -90,11 +90,11 @@
         if (article) {
           // Mengisi konten halaman
           document.getElementById('article-title').textContent = article.title || 'Tidak ada judul';
-          document.getElementById('article-image').src = article.image || 'https://via.placeholder.com/800x400';
+          document.getElementById('article-image').src = article.image_url || 'https://via.placeholder.com/800x400';
           document.getElementById('article-image').alt = `Gambar ${article.title || 'Artikel'}`;
           document.getElementById('article-meta').textContent = `Ditulis oleh ${article.author || 'Admin'} | ${new Date(article.published_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
           document.getElementById('article-description').textContent = article.description || 'Tidak ada deskripsi';
-          document.getElementById('article-source').innerHTML = `Sumber: <a href="${article.url || '#'}" target="_blank">${article.source || 'Tidak ada sumber'}</a>`;
+          document.getElementById('article-source').innerHTML = `Sumber: <a href="${article.link || '#'}" target="_blank">${article.source_id || 'Tidak ada sumber'}</a>`;
         } else {
           errorDiv.textContent = 'Artikel tidak ditemukan. Silakan kembali ke beranda.';
         }
