@@ -1,21 +1,21 @@
 {
-  "name": "Blog Teknologi",
-  "short_name": "Blog tech",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#15803d",
-  "orientation": "portrait",
-  "description": "Berita teknologi terbaru dan terupdate dari berbagai sumber terpercaya.",
-  "lang": "id",
-  "icons": [
+  "name": "Blog Teknologi",                      // Nama lengkap aplikasi saat ditampilkan di layar
+  "short_name": "Blog tech",                     // Nama singkat (misalnya untuk ikon di home screen)
+  "start_url": "/",                              // Halaman awal saat aplikasi dibuka
+  "display": "standalone",                       // Tampil seperti aplikasi native (tanpa address bar)
+  "background_color": "#ffffff",                 // Warna background saat splash screen ditampilkan
+  "theme_color": "#15803d",                      // Warna utama aplikasi (status bar & toolbar)
+  "orientation": "portrait",                     // Orientasi layar dikunci ke portrait
+  "description": "Berita teknologi terbaru dan terupdate dari berbagai sumber terpercaya.",  // Deskripsi aplikasi
+  "lang": "id",                                  // Bahasa utama aplikasi
+  "icons": [                                     // Ikon aplikasi dalam berbagai ukuran
     {
-      "src": "logoblog(1).png",
-      "sizes": "192x192",
+      "src": "logoblog(1).png",                  // Gambar ikon
+      "sizes": "192x192",                        // Ukuran untuk perangkat kecil
       "type": "image/png"
     },
     {
-      "src": "logoblog(1).png",
+      "src": "logoblog(1).png",                  // Ukuran lebih besar untuk layar resolusi tinggi
       "sizes": "512x512",
       "type": "image/png"
     }
