@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Menentukan karakter encoding dan pengaturan tampilan responsif -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog Saya - Halaman Utama</title>
+  
+  <!-- Favicon ikon pada tab browser -->
   <link rel="icon" type="image/png" href="logoblog(1).png" sizes="32x32">
 
-  <!-- Bootstrap CSS untuk desain responsif -->
+  <!-- Bootstrap CSS untuk desain responsif dan komponen UI -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- memanggil manifest -->
+  <!-- Memanggil file manifest untuk PWA -->
   <link rel="manifest" href="./manifest.json">
 
-  <!-- CSS tambahan untuk styling khusus -->
+  <!-- CSS tambahan untuk mempercantik tampilan -->
   <style>
+    /* Header dengan efek gradient dan sticky di atas */
     .header-custom {
       background: linear-gradient(to right, #007bff, #6610f2);
       transition: all 0.5s ease;
@@ -22,28 +26,34 @@
       z-index: 1000;
     }
 
+    /* Menyembunyikan header saat scroll ke bawah */
     .header-hidden {
       opacity: 0;
       filter: blur(5px);
       pointer-events: none;
     }
 
+    /* Mengatur tinggi dan pemotongan gambar agar rapi */
     .card-img-top {
       height: 300px;
       object-fit: cover;
     }
 
+    /* Efek hover pada kartu artikel */
     .card:hover {
       transform: scale(1.02);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
 
+    /* Tampilan teks error */
     .error {
       color: red;
       text-align: center;
       margin-top: 20px;
     }
+
+    /* Teks loading saat data dimuat */
     .loading {
       text-align: center;
       font-style: italic;
@@ -53,7 +63,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Bagian Header -->
   <header class="header-custom text-white text-center py-3 shadow">
     <div class="container">
       <h1 class="display-4 fw-bold">Blog Teknologi</h1>
@@ -63,9 +73,9 @@
 
   <!-- Konten utama -->
   <main class="container my-4">
-    <div id="loading" class="loading">Memuat berita...</div>
-    <div id="error" class="error"></div>
-    <div class="row" id="articles"></div>
+    <div id="loading" class="loading">Memuat berita...</div> <!-- Pesan loading -->
+    <div id="error" class="error"></div> <!-- Tempat pesan error -->
+    <div class="row" id="articles"></div> <!-- Tempat menampilkan daftar artikel -->
   </main>
 
   <!-- Footer -->
@@ -73,42 +83,44 @@
     <p>© 2025 Blog Teknologi Terbaru</p>
   </footer>
 
-  <!-- Script -->
+  <!-- Script: JavaScript -->
   <script>
-    // Efek scroll pada header
+    // Efek sticky header saat scroll
     const header = document.querySelector('.header-custom');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 100) {
-        header.classList.add('header-hidden');
+        header.classList.add('header-hidden'); // Sembunyikan header saat scroll ke bawah
       } else {
-        header.classList.remove('header-hidden');
+        header.classList.remove('header-hidden'); // Tampilkan header lagi saat scroll ke atas
       }
     });
 
-    // URL API dari Newsdata.io
+    // URL dari API newsdata.io untuk berita teknologi Indonesia
     const url = 'https://newsdata.io/api/1/latest?apikey=pub_6b2b5f1d7a4d45cda43924f5a1c199ec&country=id&language=id&category=technology';
 
+    // Fungsi async untuk mengambil data berita dari API
     async function fetchNews() {
       const loading = document.getElementById('loading');
       const errorDiv = document.getElementById('error');
       const articlesDiv = document.getElementById('articles');
 
       try {
-        const response = await fetch(url);
-        loading.style.display = 'none';
+        const response = await fetch(url); // Memanggil API
+        loading.style.display = 'none'; // Sembunyikan teks loading
 
         if (response.ok) {
-          const data = await response.json();
+          const data = await response.json(); // Parsing data JSON dari response
 
+          // Jika hasil ditemukan
           if (data.results && data.results.length > 0) {
             data.results.forEach((article, index) => {
               const title = article.title || 'Tidak ada judul';
               const description = article.description || 'Tidak ada deskripsi';
               const source = article.source_id || 'Tidak ada sumber';
-              // Gunakan gambar dari API jika tersedia, jika tidak gunakan gambar random teknologi
-              const image = article.image_url && article.image_url !== null ? article.image_url : getRandomTechImage();
+              const image = article.image_url && article.image_url !== null ? article.image_url : getRandomTechImage(); // Jika tidak ada gambar, ambil gambar random
               const url = article.link || '#';
 
+              // Membuat elemen div untuk artikel
               const articleDiv = document.createElement('div');
               articleDiv.className = 'col-md-6 mb-4';
               articleDiv.innerHTML = `
@@ -121,42 +133,49 @@
                   </div>
                 </div>
               `;
+
+              // Menambahkan ke halaman
               articlesDiv.appendChild(articleDiv);
 
-              // Menyimpan data artikel ke sessionStorage untuk detail
+              // Menyimpan data artikel ke sessionStorage untuk halaman detail
               sessionStorage.setItem(`article_${index}`, JSON.stringify({ ...article, image }));
             });
           } else {
+            // Jika tidak ada hasil
             errorDiv.textContent = 'Tidak ada berita teknologi ditemukan.';
           }
         } else {
+          // Jika error dari sisi server/API
           const errorData = await response.json();
           loading.style.display = 'none';
           errorDiv.textContent = `Gagal mengambil data. Status: ${response.status}, Pesan: ${errorData.message || 'Kemungkinan API key tidak valid. Silakan periksa di newsdata.io.'}`;
         }
       } catch (error) {
+        // Jika terjadi error koneksi atau error lainnya
         loading.style.display = 'none';
         errorDiv.textContent = `Terjadi kesalahan saat memanggil API: ${error.message}. Pastikan Anda terhubung ke internet.`;
       }
     }
 
+    // Fungsi untuk membuka halaman detail berita berdasarkan index
     function viewDetail(index) {
       window.location.href = `detail.html?index=${index}`;
     }
 
+    // Menjalankan fetchNews saat halaman selesai dimuat
     window.onload = fetchNews;
   </script>
 
-  <!-- service worker -->
+  <!-- Service Worker untuk dukungan PWA -->
   <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service worker terdaftar:', reg))
-        .catch(err => console.log('Service worker gagal:', err));
+        .then(reg => console.log('Service worker terdaftar:', reg)) // Jika sukses
+        .catch(err => console.log('Service worker gagal:', err));    // Jika gagal
     });
   }
-</script>
+  </script>
 
 </body>
 </html>
